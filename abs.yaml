@@ -1,1 +1,4 @@
 aggregate_check: false
+
+channels:
+  - https://staging.continuum.io/prefect/fs/nbdime-feedstock/pr2/bc2c04a
