@@ -1,14 +1,13 @@
 {% set name = "jupyterlab-git" %}
 {% set version = "0.51.3" %}
-{% set sha256 = "c3bd9405dbdb69cf2fe56fb05474f2d7217d45d177f38fec92b45ff890cbc146" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/j/jupyterlab_git/jupyterlab_git-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name.replace('-','_')}}/{{ name.replace('-','_')}}-{{ version }}.tar.gz
+  sha256: c3bd9405dbdb69cf2fe56fb05474f2d7217d45d177f38fec92b45ff890cbc146
 
 build:
   number: 0
@@ -26,12 +25,11 @@ requirements:
   run:
     - jupyter_server >=2.0.1,<3
     - python
-    - nbdime >=4.0.1,<4.1.dev0
+    - nbdime >=4.0.1,<4.1.0
     - nbformat
     - packaging
     - pexpect
-    - traitlets >=5.0,<6.dev0
-    - jupyter-server <3,>=2.0.1
+    - traitlets >=5.0,<6.0
   run_constrained:
     - jupyterlab >=4.0.0,<5
 
