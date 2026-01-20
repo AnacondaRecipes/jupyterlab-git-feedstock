@@ -37,6 +37,7 @@ test:
   requires:
     - jupyterlab >=4.0.0,<5
     - pip
+    - m2-grep  # [win]
   imports:
     - jupyterlab_git
   commands:
