@@ -30,10 +30,6 @@ requirements:
     - traitlets >=5.0,<6.0
 
 test:
-  requires:
-    - jupyterlab >=4.0.0,<5
-    - pip
-    - msys2-grep  # [win]
   imports:
     - jupyterlab_git
   commands:
@@ -42,6 +38,10 @@ test:
     - jupyter server extension list 2>&1 | grep -ie "jupyterlab_git.*OK"
     - jupyter labextension list
     - jupyter labextension list 2>&1 | grep -ie "@jupyterlab/git.*OK.*(python, jupyterlab-git)"
+  requires:
+    - pip
+    - jupyterlab >=4.0.0,<5
+    - msys2-grep  # [win]
 
 about:
   home: https://github.com/jupyterlab/jupyterlab-git
