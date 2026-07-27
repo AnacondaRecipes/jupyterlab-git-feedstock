@@ -1,43 +1,35 @@
 {% set name = "jupyterlab-git" %}
-{% set version = "0.51.3" %}
+{% set version = "0.54.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name.replace('-','_')}}/{{ name.replace('-','_')}}-{{ version }}.tar.gz
-  sha256: c3bd9405dbdb69cf2fe56fb05474f2d7217d45d177f38fec92b45ff890cbc146
+  sha256: 4d0b46d3d17376a5c610633a2191868f577f46341e112dc9dece1f501cd46b65
 
 build:
   number: 0
-  skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<310]
 
 requirements:
   host:
-    - hatch-jupyter-builder >=0.5
-    - hatch-nodejs-version >=0.3.2
     - pip
     - python
     - hatchling >=1.5.0
-    - jupyterlab >=4.0.0,<5
+    - hatch-nodejs-version >=0.3.2
   run:
-    - jupyter_server >=2.0.1,<3
     - python
+    # jupyterlab-git-core[nbdime]>=0.52.0
+    - jupyterlab-git-core >=0.52.0
+    # https://inspector.pypi.io/project/jupyterlab-git-core/0.54.0/packages/84/76/53411bedeeba5d339fb197384a9a3f9ddd9de2adef76df97aeca0da2ed78/jupyterlab_git_core-0.54.0.tar.gz/jupyterlab_git_core-0.54.0/pyproject.toml#line.37
     - nbdime >=4.0.1,<4.1.0
-    - nbformat
-    - packaging
-    - pexpect
+    - jupyter_server >=2.0.1,<3
     - traitlets >=5.0,<6.0
-  run_constrained:
-    - jupyterlab >=4.0.0,<5
 
 test:
-  requires:
-    - jupyterlab >=4.0.0,<5
-    - pip
-    - m2-grep  # [win]
   imports:
     - jupyterlab_git
   commands:
@@ -45,7 +37,11 @@ test:
     - jupyter server extension list
     - jupyter server extension list 2>&1 | grep -ie "jupyterlab_git.*OK"
     - jupyter labextension list
-    - jupyter labextension list 2>&1 | grep -ie "@jupyterlab/git.*OK.*(python, jupyterlab-git)"
+    - jupyter labextension list 2>&1 | grep -ie "@jupyterlab/git.*OK.*(python, jupyterlab-git-core)"
+  requires:
+    - pip
+    - jupyterlab >=4.0.0,<5
+    - msys2-grep  # [win]
 
 about:
   home: https://github.com/jupyterlab/jupyterlab-git
