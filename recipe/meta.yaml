@@ -10,7 +10,7 @@ source:
   sha256: 4d0b46d3d17376a5c610633a2191868f577f46341e112dc9dece1f501cd46b65
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [py<310]
 
@@ -35,13 +35,14 @@ test:
   commands:
     - pip check
     - jupyter server extension list
-    - jupyter server extension list 2>&1 | grep -ie "jupyterlab_git.*OK"
+    - jupyter server extension list 2>&1 | grep -ie "jupyterlab_git.*OK"      # [not win]
+    - jupyter server extension list 2>&1 | findstr /i /r "jupyterlab_git.*OK"  # [win]
     - jupyter labextension list
-    - jupyter labextension list 2>&1 | grep -ie "@jupyterlab/git.*OK.*(python, jupyterlab-git-core)"
+    - jupyter labextension list 2>&1 | grep -ie "@jupyterlab/git.*OK.*(python, jupyterlab-git-core)"      # [not win]
+    - jupyter labextension list 2>&1 | findstr /i /r "@jupyterlab/git.*OK.*(python,.*jupyterlab-git-core)"  # [win]
   requires:
     - pip
     - jupyterlab >=4.0.0,<5
-    - msys2-grep  # [win]
 
 about:
   home: https://github.com/jupyterlab/jupyterlab-git
